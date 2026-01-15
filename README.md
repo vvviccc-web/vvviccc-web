@@ -2,7 +2,7 @@
 - 👀 I’m interested in learning how to code and websites self-hosted
 - 🌱 I’m currently learning Python
 - 💞️ I’m looking to collaborate on projects where I can learn
-- 📫 How to reach me on monkeytown@07f.de
+- 📫 How to reach me on @vv.i.cc Instagram
 - 😄 Pronouns: he/they
 - ⚡ Fun fact: im not funny
 
