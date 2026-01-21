@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<header>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VIC | Visual Intelligence, Creativivity - Music Supervision & Creative Strtegy & Content Development</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description"
+    content="VIC Research Lab - Creative and sonic services for rebels. Music supervision, creative strategy, rights & sync, and cultural curation based in Barcelona.">
+  <meta name="keywords"
+    content="music supervision, creative strategy, rights sync, cultural curation, Barcelona, VIC, visual intelligence creative">
+  <meta name="author" content="VIC Research Lab">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="VIC | Visual Intelligence Creative">
+  <meta property="og:description"
+    content="Creative and sonic services for rebels. Music supervision, creative strategy, rights & sync.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://viccoronado.com">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="VIC | Visual Intelligence Creative">
+  <meta name="twitter:description"
+    content="Creative and sonic services for rebels. Music supervision, creative strategy, rights & sync.">
+
+  <!-- Preconnect to Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Motion Libraries -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+
+  <!-- Custom Styles -->
+  <style>
+    :root {
+      --acid: #FF2A00;
+      --off: #EAEAE5;
+      --carbon: #0A0A0A;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--carbon);
+      color: var(--off);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    @media (pointer:fine) {
+      body {
+        cursor: none;
+      }
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--acid);
+      outline-offset: 4px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .animate-marquee {
+        animation: none !important;
+      }
+
+      .neon-gradient-bg {
+        animation: none !important;
+      }
+
+      .reveal-text {
+        transform: none !important;
+      }
+    }
+
+    .neon-gradient-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
+        radial-gradient(at 50% 0%, hsla(225, 39%, 10%, 1) 0, transparent 50%),
+        radial-gradient(at 100% 0%, hsla(339, 49%, 15%, 1) 0, transparent 50%);
+      background-size: 200% 200%;
+      animation: aurora 20s ease infinite;
+    }
+
+    @keyframes aurora {
+      0% {
+        background-position: 0% 50%
+      }
+
+      50% {
+        background-position: 100% 50%
+      }
+
+      100% {
+        background-position: 0% 50%
+      }
+    }
+
+    .noise-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.05;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    .reveal-holder {
+      overflow: hidden;
+      display: block;
+    }
+
+    .reveal-text {
+      display: block;
+      transform: translateY(105%);
+      will-change: transform;
+    }
+
+    #cursor-follower,
+    #cursor-ring {
+      display: none;
+    }
+
+    @media (pointer:fine) {
+      #cursor-follower {
+        display: block;
+        position: fixed;
+        width: 8px;
+        height: 8px;
+        background: var(--acid);
+        border-radius: 999px;
+        pointer-events: none;
+        z-index: 10000;
+        mix-blend-mode: difference;
+      }
+
+      #cursor-ring {
+        display: block;
+        position: fixed;
+        width: 40px;
+        height: 40px;
+        border: 1px solid var(--acid);
+        border-radius: 999px;
+        pointer-events: none;
+        z-index: 9999;
+        transition: width .3s, height .3s, border-color .3s;
+      }
+    }
+
+    .horizontal-section {
+      width: calc(var(--slides, 5) * 100vw);
+      height: 100vh;
+      display: flex;
+      flex-wrap: nowrap;
+    }
+
+    .slide {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 5vw;
+    }
+
+    .slide-img-container {
+      width: 70%;
+      height: 80%;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, .1);
+    }
+
+    .slide-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.12);
+      will-change: transform;
+    }
+
+    .service-card {
+      border: 1px solid rgba(255, 255, 255, .1);
+      transition: all .5s cubic-bezier(.16, 1, .3, 1);
+    }
+
+    .service-card:hover {
+      background: var(--acid);
+      color: #000;
+      transform: translateY(-10px);
+    }
+
+    .service-card:hover .service-num {
+      color: rgba(0, 0, 0, .35);
+    }
+
+    .service-card:hover .service-desc {
+      color: rgba(0, 0, 0, .75);
+    }
+
+    .animate-marquee {
+      display: inline-block;
+      white-space: nowrap;
+      animation: marquee 30s linear infinite;
+    }
+
+    @keyframes marquee {
+      0% {
+        transform: translateX(0)
+      }
+
+      100% {
+        transform: translateX(-50%)
+      }
+    }
+
+    .proof-card {
+      border: 1px solid rgba(255, 255, 255, .12);
+      background: rgba(10, 10, 10, .55);
+      backdrop-filter: blur(10px);
+    }
+
+    .proof-card:hover {
+      border-color: rgba(255, 42, 0, .55);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .horizontal-section {
+        width: 100%;
+        height: auto;
+        flex-direction: column;
+      }
+
+      .slide {
+        width: 100%;
+        height: 100vh;
+        position: relative;
+      }
+
+      #ai-chat-widget {
+        width: 90%;
+        right: 5%;
+      }
+    }
+
+    /* Accessibility improvements */
+    @media (prefers-reduced-motion: reduce) {
+
+      .animate-marquee,
+      .neon-gradient-bg,
+      .reveal-text {
+        animation: none !important;
+        transform: none !important;
+      }
+    }
+
+    /* Print styles */
+    @media print {
+
+      .neon-gradient-bg,
+      .noise-overlay,
+      #cursor-follower,
+      #cursor-ring,
+      #ai-chat-widget {
+        display: none !important;
+      }
+    }
+  </style>
+</header>
+
+<body class="font-sans">
+  <!-- Background Elements -->
+  <div class="neon-gradient-bg"></div>
+  <div class="noise-overlay"></div>
+
+  <!-- Custom Cursor -->
+  <div id="cursor-follower" aria-hidden="true"></div>
+  <div id="cursor-ring" aria-hidden="true"></div>
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 w-full z-[100] mix-blend-difference px-6 py-6 flex justify-between items-center">
+    <a href="#" class="cursor-hover group relative" aria-label="Back to top">
+      <span
+        class="font-black text-3xl tracking-tighter block group-hover:scale-x-125 transition-transform origin-left">VIC
+        [visual intelligence, creativity]</span>
+    </a>
+    <div class="hidden md:flex gap-12 font-mono text-[10px] uppercase tracking-[0.2em] font-bold text-white">
+      <a href="#manifesto" class="cursor-hover hover:text-acid transition-colors">Manifesto</a>
+      <a href="#services" class="cursor-hover hover:text-acid transition-colors">Services</a>
+      <a href="#proof" class="cursor-hover hover:text-acid transition-colors">Work</a>
+      <a href="#work-gallery" class="cursor-hover hover:text-acid transition-colors">Archive</a>
+      <a href="#contact" class="cursor-hover hover:text-acid transition-colors">Contact</a>
+    </div>
+    <!-- Mobile menu button -->
+    <button id="mobile-menu-btn" class="md:hidden cursor-hover text-white" aria-label="Toggle mobile menu">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="fixed inset-0 z-[99] bg-carbon/95 backdrop-blur-xl hidden">
+    <div class="flex flex-col items-center justify-center h-full gap-8 font-mono text-sm uppercase tracking-widest">
+      <a href="#manifesto" class="mobile-nav-link hover:text-acid transition-colors">Manifesto</a>
+      <a href="#services" class="mobile-nav-link hover:text-acid transition-colors">Services</a>
+      <a href="#proof" class="mobile-nav-link hover:text-acid transition-colors">Work</a>
+      <a href="#work-gallery" class="mobile-nav-link hover:text-acid transition-colors">Archive</a>
+      <a href="#contact" class="mobile-nav-link hover:text-acid transition-colors">Contact</a>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header
+    class="relative min-h-screen flex flex-col justify-end p-6 md:p-12 lg:p-24 overflow-hidden border-b border-white/10">
+    <div class="absolute inset-0 z-0">
+      <video autoplay muted loop playsinline preload="metadata"
+        class="w-full h-full object-cover opacity-70 color brightness-70 scale-110">
+        <source src="https://www.theadult.life/beauty3.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <div class="relative z-10 w-full max-w-7xl">
+      <div class="reveal-holder">
+        <br>
+        <h3 class="reveal-text text-[15vw] lg:text-[12vw] font-red uppercase leading-[0.8] tracking-tighter mb-4"></h3>
+      </div>
+      <div class="reveal-holder">
+        <h3
+          class="reveal-text text-[15vw] lg:text-[12vw] font-red uppercase leading-[0.8] tracking-tighter mb-4 text-acid">
+          creative services</h3>
+      </div>
+      <div class="reveal-holder">
+        <h3 class="reveal-text text-[15vw] lg:text-[12vw] font-red uppercase leading-[0.8] tracking-tighter">for rebels
+        </h3>
+      </div>
+      <div class="reveal-holder">
+        <h1 class="reveal-text text-[15vw] lg:text-[12vw] font-red uppercase leading-[0.8] tracking-tighter">like us
+        </h1>
+        <div class="mt-10 max-w-2xl">
+          <p class="font-mono text-[11px] uppercase tracking-widest text-white/60">
+            visual intelligence, creativity
+          </p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Marquee -->
+  <div class="w-full bg-acid py-4 border-y-2 border-[#444] overflow-hidden whitespace-nowrap z-20 relative"
+    aria-hidden="true">
+    <div class="animate-marquee font-mono font-bold text-sm uppercase tracking-widest text-white">
+      MUSIC SUPERVISION +++ CREATIVE STRATEGY +++ RIGHTS & SYNC +++ CULTURAL CURATION +++ RESEARCH LAB +++
+      MUSIC SUPERVISION +++ CREATIVE STRATEGY +++ RIGHTS & SYNC +++ CULTURAL CURATION +++ RESEARCH LAB +++
+    </div>
+  </div>
+
+  <!-- Manifesto Section -->
+  <section id="manifesto" class="grid grid-cols-1 lg:grid-cols-12 border-b-2 border-[#444]">
+    <div class="lg:col-span-8 p-12 lg:p-24 border-r-2 border-[#444] bg-carbon/50 backdrop-blur-md">
+      <h2 class="font-mono text-xs uppercase tracking-widest text-acid mb-8">Manifesto</h2>
+      <h3 class="text-4xl md:text-7xl font-red uppercase tracking-tighter leading-[0.85] mb-12">
+      </h3>
+      <p class="font-mono text-xl leading-tight text-white uppercase font-bold">
+        We are the junction where intuition meets engineering.<br>
+        <br>We practice Rebellion with Systems, because disruption needs a plan to survive.<br>
+        <br> We guarantee Taste with Delivery, because a beautiful idea is worthless if it isn't executed perfectly.<br>
+        <br>And our ultimate mission is to transform Chaos into Clarity, taking the complexity of the modern world and
+        translating it into simple, powerful, and human solutions.
+      </p>
+    </div>
+
+    <div class="lg:col-span-4 p-12 flex flex-col justify-center"
+      style="background: linear-gradient(135deg, rgba(255,42,0,.95) 0%, rgba(17,17,17,.95) 55%, rgba(234,234,229,.85) 100%);">
+      <h3 class="font-mono text-xs uppercase tracking-widest text-red/60 mb-6"></h3>
+      <h3 class="text-xl md:text-4xl font-red uppercase tracking-tighter leading-[0.85] mb-12">
+        <br>non average professionalism<br>
+        <br>Measurable outcomes<br>
+        <br>Culture first<span class="text-acid"></span>
+      </h3>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services" class="py-24 px-6 md:px-12 border-b border-white/10">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="font-mono text-xs uppercase tracking-widest text-white/50 mb-10">Services</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 bg-white/10 border border-white/10">
+        <div class="service-card bg-carbon p-10 flex flex-col justify-between min-h-[350px] cursor-hover">
+          <span class="service-num font-mono text-x opacity-40">01 / sonic services</span>
+          <div>
+            <h4 class="text-3xl font-black uppercase tracking-tight mb-4 leading-none">Music Curation</h4>
+            <p class="service-desc font-mono text-[14px] uppercase tracking-wider text-gray-500 leading-relaxed">
+              Narrative-first sourcing. Feasible, licensable, sharp. Rights clearance or original score production
+              coordination, give me the batute and we will make it happen</p>
+          </div>
+        </div>
+        <div class="service-card bg-carbon p-10 flex flex-col justify-between min-h-[350px] cursor-hover">
+          <span class="service-num font-mono text-x opacity-40">02 / creativity</span>
+          <div>
+            <h4 class="text-3xl font-black uppercase tracking-tight mb-4 leading-none">Creative Services</h4>
+            <p class="service-desc font-mono text-[14px] uppercase tracking-wider text-gray-500 leading-relaxed">Content
+              development of IPs like drama series, storytelling or directing videoclips, many hat weared all at a
+              creative and personal style</p>
+          </div>
+        </div>
+        <div class="service-card bg-carbon p-10 flex flex-col justify-between min-h-[350px] cursor-hover">
+          <span class="service-num font-mono text-x opacity-40">03 / advocacy</span>
+          <div>
+            <h4 class="text-3xl font-black uppercase tracking-tight mb-4 leading-none">cultural curator</h4>
+            <p class="service-desc font-mono text-[14px] uppercase tracking-wider text-gray-500 leading-relaxed">
+              Lectures at film festivals or at private unis, advocating and reclaiming our space and respect for us, the
+              queer family and other minorities</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Proof Section -->
+  <section id="proof" class="py-24 px-6 md:px-12 border-b border-white/10">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex items-end justify-between gap-8 mb-10">
+        <div>
+          <h2 class="font-mono text-xs uppercase tracking-widest text-white/50">Proof</h2>
+          <h3 class="mt-4 text-4xl md:text-6xl font-black uppercase tracking-tighter leading-[0.9]">
+            Real projects.<br><span class="text-acid">No bullshit</span>.
+          </h3>
+        </div>
+        <a href="#contact"
+          class="hidden md:inline-block font-mono text-[10px] uppercase tracking-[0.2em] border border-white/20 px-6 py-4 hover:border-acid transition-colors cursor-hover">Request
+          audit</a>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <article class="proof-card p-8 cursor-hover">
+          <div class="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">IP / SERIES</div>
+          <h4 class="mt-4 text-3xl font-black uppercase tracking-tight">The Adult Li(f)e</h4>
+          <p class="mt-4 text-white/70 leading-relaxed">Half-hour dramedy set in Barcelona's underground; fourth-wall
+            confessional + surreal anxiety sequences; music as a character.</p>
+          <ul class="mt-6 space-y-2 font-mono text-[11px] text-white/60">
+            <li>Role: Creator / writer / package builder</li>
+            <li>Status: Pilot + bible ready</li>
+          </ul>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <button
+              class="font-mono text-[10px] uppercase tracking-widest text-acid hover:text-white transition-colors cursor-hover"
+              onclick="showComingSoon()">Deck</button>
+            <button
+              class="font-mono text-[10px] uppercase tracking-widest text-acid hover:text-white transition-colors cursor-hover"
+              onclick="showComingSoon()">Pilot</button>
+          </div>
+        </article>
+
+        <article class="proof-card p-8 cursor-hover">
+          <div class="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">FILM / SOURCE MUSIC</div>
+          <h4 class="mt-4 text-3xl font-black uppercase tracking-tight">Madre</h4>
+          <p class="mt-4 text-white/70 leading-relaxed">Sourced and proposed non-score music to producer, replacing
+            commercial tracks with production-safe alternatives while keeping tone intact.</p>
+          <ul class="mt-6 space-y-2 font-mono text-[11px] text-white/60">
+            <li>Proposed: 12 tracks</li>
+            <li>Used: 10 tracks</li>
+          </ul>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a class="font-mono text-[10px] uppercase tracking-widest text-acid hover:text-white transition-colors cursor-hover"
+              href="https://en.wikipedia.org/wiki/Mother_(2019_Spanish_film)" target="_blank" rel="noreferrer">Film
+              ref</a>
+          </div>
+        </article>
+
+        <article class="proof-card p-8 cursor-hover">
+          <div class="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">RELEASE / PRESS</div>
+          <h4 class="mt-4 text-3xl font-black uppercase tracking-tight">LHARA — Andrómeda</h4>
+          <p class="mt-4 text-white/70 leading-relaxed">Project + press management for EP launch; authored press note;
+            coordinated coverage timed to release.</p>
+          <ul class="mt-6 space-y-2 font-mono text-[11px] text-white/60">
+            <li>Release: 7 July 2023</li>
+            <li>Coverage: VEIN + TAGMAG print (#12)</li>
+            <li>Cover: NUEBO (print)</li>
+          </ul>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a class="font-mono text-[10px] uppercase tracking-widest text-acid hover:text-white transition-colors cursor-hover"
+              href="https://vein.es/andromeda-es-lhara-y-lhara-es-andromeda/" target="_blank" rel="noreferrer">VEIN</a>
+            <a class="font-mono text-[10px] uppercase tracking-widest text-acid hover:text-white transition-colors cursor-hover"
+              href="https://issuu.com/tagmag.es/docs/12" target="_blank" rel="noreferrer">TAGMAG #12</a>
+            <button
+              class="font-mono text-[10px] uppercase tracking-widest text-acid hover:text-white transition-colors cursor-hover"
+              onclick="showComingSoon()">NUEBO cover</button>
+          </div>
+        </article>
+      </div>
+
+      <p class="mt-10 font-mono text-[10px] uppercase tracking-widest text-white/40">
+        All projects are real and documented. Links open in new tabs for verification.
+      </p>
+    </div>
+  </section>
+
+  <!-- Work Gallery -->
+  <div id="work-gallery" class="bg-carbon overflow-hidden border-b border-white/10">
+    <div class="horizontal-section" style="--slides:5">
+      <section class="slide">
+        <div class="absolute top-24 left-12 z-20">
+          <span class="font-mono text-xs text-acid mb-2 block">Archive_001</span>
+          <h2 class="text-7xl lg:text-9xl font-black uppercase tracking-tighter">Adult Li(f)e</h2>
+          <p class="mt-3 font-mono text-[11px] uppercase tracking-widest text-white/60">Pilot + bible ready</p>
+        </div>
+        <div class="slide-img-container">
+          <img loading="lazy" decoding="async" src="https://www.theadult.life/THE%20ADULT%20LI(f)E-2.png"
+            class="slide-img" alt="adult" />
+        </div>
+      </section>
+
+      <section class="slide">
+        <div class="absolute bottom-24 right-12 text-right z-20">
+          <span class="font-mono text-xs text-acid mb-2 block">Archive_002</span>
+          <h2 class="text-7xl lg:text-9xl font-black uppercase tracking-tighter">Madre</h2>
+          <p class="mt-3 font-mono text-[11px] uppercase tracking-widest text-white/60">12 proposed / 10 used</p>
+        </div>
+        <div class="slide-img-container">
+          <img loading="lazy" decoding="async" src="https://theadult.life/madre.png" class="slide-img"
+            alt="Madre Film Project" />
+        </div>
+      </section>
+
+      <section class="slide">
+        <div class="absolute top-24 left-12 z-20">
+          <span class="font-mono text-xs text-acid mb-2 block">Archive_003</span>
+          <h2 class="text-7xl lg:text-9xl font-black uppercase tracking-tighter">Andrómeda</h2>
+          <p class="mt-3 font-mono text-[11px] uppercase tracking-widest text-white/60">PR Campaign + Release MKT Plan
+          </p>
+        </div>
+        <div class="slide-img-container">
+          <img loading="lazy" decoding="async" src="https://www.theadult.life/andromeda.jpeg" class="slide-img"
+            alt="Andrómeda Music Project" />
+        </div>
+      </section>
+
+      <section class="slide">
+        <div class="absolute bottom-24 right-12 text-right z-20">
+          <span class="font-mono text-xs text-acid mb-2 block">Archive_004</span>
+          <h2 class="text-7xl lg:text-9xl font-black uppercase tracking-tighter">El Patio</h2>
+          <p class="mt-3 font-mono text-[11px] uppercase tracking-widest text-white/60">Release MKT plan</p>
+        </div>
+        <div class="slide-img-container">
+          <img loading="lazy" decoding="async" src="https://www.theadult.life/elpatio.jpeg" class="slide-img"
+            alt="El Patio Project" />
+        </div>
+      </section>
+      <section class="slide bg-acid">
+        <div class="text-center text-white z-20">
+          <h2 class="text-[15vw] font-black uppercase leading-none tracking-tighter">Embrace the chaos</h2>
+          <p class="font-mono text-xl mt-4 font-bold uppercase tracking-wide">Send us your brief and we will reach out
+            back to you in 24h during working days</p>
+
+          <!-- Footer/Contact -->
+          <footer id="contact" class="relative pt-24 pb-12 px-6 md:px-12 bg-acid text-black overflow-hidden">
+            <div class="relative z-10 max-w-7xl mx-auto">
+
+              <p class="font-mono text-[50px] uppercase tracking-widest text-white/70 max-w-3xl">
+              </p>
+              <a class="mailto text-[6vw] font-black uppercase tracking-tighter leading[0.6] text-white ">hello@viccoronado.com
+              </a>
+              <div>
+                <p class="font-mono text-[12px] uppercase tracking-widest text-white/70 max-w-2xl">
+                  <br> © 2026 VIC visual intelligence, creativity / BARCELONA, WW
+                </p>
+              </div>
+            </div>
+          </footer>
+
+          <!-- JavaScript -->
+          <script>
+            // Initialize when DOM is loaded
+            document.addEventListener('DOMContentLoaded', function () {
+              const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+              // Initialize Lenis smooth scroll
+              if (!reduceMotion && window.Lenis) {
+                const lenis = new Lenis({
+                  duration: 1.1,
+                  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                  smoothWheel: true
+                });
+                const raf = (time) => {
+                  lenis.raf(time);
+                  requestAnimationFrame(raf);
+                };
+                requestAnimationFrame(raf);
+              }
+              // Initialize GSAP animations
+              if (!reduceMotion && window.gsap && window.ScrollTrigger) {
+                gsap.registerPlugin(ScrollTrigger);
+                // Reveal text animation
+                gsap.to('.reveal-text', {
+                  y: 0,
+                  duration: 1.35,
+                  ease: 'power4.out',
+                  stagger: 0.08,
+                  delay: 0.2
+                });
+                // Horizontal scroll for work gallery
+                const slides = gsap.utils.toArray('.slide');
+                if (slides.length > 0 && window.innerWidth > 768) {
+                  gsap.to(slides, {
+                    xPercent: -100 * (slides.length - 1),
+                    ease: 'none',
+                    scrollTrigger: {
+                      trigger: '#work-gallery',
+                      pin: true,
+                      scrub: 1,
+                      invalidateOnRefresh: true,
+                      end: () => '+=' + document.querySelector('.horizontal-section').offsetWidth
+                    }
+                  });
+                }
+              }
+              // Custom cursor
+              if (window.matchMedia('(pointer:fine)').matches && window.gsap) {
+                const follower = document.getElementById('cursor-follower');
+                const ring = document.getElementById('cursor-ring');
+                if (follower && ring) {
+                  window.addEventListener('mousemove', (e) => {
+                    gsap.to(follower, {
+                      x: e.clientX,
+                      y: e.clientY,
+                      duration: 0.08,
+                      overwrite: true
+                    });
+                    gsap.to(ring, {
+                      x: e.clientX - 20,
+                      y: e.clientY - 20,
+                      duration: 0.18,
+                      overwrite: true
+                    });
+                  });
+                  document.querySelectorAll('.cursor-hover, a, button').forEach(el => {
+                    el.addEventListener('mouseenter', () => {
+                      gsap.to(ring, {
+                        width: 80,
+                        height: 80,
+                        backgroundColor: 'rgba(255,42,0,0.1)',
+                        duration: 0.25
+                      });
+                      gsap.to(follower, {
+                        scale: 0,
+                        duration: 0.15
+                      });
+                    });
+                    el.addEventListener('mouseleave', () => {
+                      gsap.to(ring, {
+                        width: 40,
+                        height: 40,
+                        backgroundColor: 'transparent',
+                        duration: 0.25
+                      });
+                      gsap.to(follower, {
+                        scale: 1,
+                        duration: 0.15
+                      });
+                    });
+                  });
+                }
+              }
+              // Mobile menu toggle
+              const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+              const mobileMenu = document.getElementById('mobile-menu');
+              const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+              if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                  mobileMenu.classList.toggle('hidden');
+                });
+                // Close mobile menu when clicking on links
+                mobileNavLinks.forEach(link => {
+                  link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                  });
+                });
+                // Close mobile menu when clicking outside
+                mobileMenu.addEventListener('click', (e) => {
+                  if (e.target === mobileMenu) {
+                    mobileMenu.classList.add('hidden');
+                  }
+                });
+              }
+              // Smooth scroll for navigation links
+              document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                  e.preventDefault();
+                  const target = document.querySelector(this.getAttribute('href'));
+                  if (target) {
+                    target.scrollIntoView({
+                      behavior: 'smooth',
+                      block: 'start'
+                    });
+                  }
+                });
+              });
+              // Intersection Observer for scroll animations
+              const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+              };
+              const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                  if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                  }
+                });
+              }, observerOptions);
+              // Observe elements for scroll animations
+              document.querySelectorAll('.service-card, .proof-card').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+              });
+            });
+            // Utility functions
+            function showComingSoon() {
+              alert('Coming soon! This asset is being prepared for launch. Contact iam@viccoronado.com for immediate access.');
+            }
+            // Performance optimization: Lazy load images
+            if ('IntersectionObserver' in window) {
+              const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                  if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src || img.src;
+                    img.classList.remove('lazy');
+                    imageObserver.unobserve(img);
+                  }
+                });
+              });
+              document.querySelectorAll('img[loading="lazy"]').forEach(img => {
+                imageObserver.observe(img);
+              });
+            }
+            // Error handling for missing resources
+            window.addEventListener('error', function (e) {
+              if (e.target.tagName === 'IMG') {
+                e.target.src = 'https://picsum.photos/seed/error/1200/800.jpg';
+                e.target.alt = 'Placeholder image';
+              }
+            }, true);
+            // Console welcome message
+            console.log('%cVIC RESEARCH LAB', 'color: #FF2A00; font-size: 24px; font-weight: bold;');
+            console.log('%cSystem online. Creative & sonic services for rebels.', 'color: #EAEAE5; font-size: 12px;');
+            console.log('%cContact: hello@viccoronado.com', 'color: #FF2A00; font-size: 10px;');
+          </script>
+</body>
+
+</html>
